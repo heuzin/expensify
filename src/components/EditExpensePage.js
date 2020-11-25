@@ -9,12 +9,12 @@ const EditExpensePage = (props) => {
             <ExpenseForm
                 expense={props.expense} 
                 onSubmit={(expense) => {
-                    props.dispatch(startEditExpense(props.match.params.id, expense))
+                    props.onSubmitEditExpense(props.match.params.id, expense)
                     props.history.push('/')
                 }}
             />
             <button onClick={(e) => {
-                props.dispatch(startRemoveExpense({ id: props.match.params.id }))
+                props.onSubmitRemoveExpense({ id: props.match.params.id })
                 props.history.push('/')
             }}>Remove</button>
         </div>
@@ -29,4 +29,11 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps)(EditExpensePage);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubmitEditExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
+        onSubmitRemoveExpense: (id) => dispatch(startRemoveExpense(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);
